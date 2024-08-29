@@ -6,6 +6,7 @@ import { reactive } from "vue";
 
 export const useTerminalStore = defineStore("terminal", () => {
   const feed: FeedRow[] = reactive([]);
+  
   const commands: RunnableStorage<ParsedCommand> = Object.fromEntries(everyCommand.map(({ id, action }) => [id, { id, action }]))
 
   function nextSequentialId() {
