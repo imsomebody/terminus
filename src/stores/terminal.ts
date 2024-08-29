@@ -29,6 +29,10 @@ export const useTerminalStore = defineStore("terminal", () => {
     }
   }
 
+  function clear() {
+    feed.splice(0)
+  }
+
   function onCommandNotFound(cmd: ParsedCommand, originator: Command) {
     feed.push({
       text: `${cmd.command}: command not found. Try 'help' for a list of commands.`,
@@ -49,6 +53,7 @@ export const useTerminalStore = defineStore("terminal", () => {
 
   return {
     feed,
+    clear,
     push,
     command,
   }
