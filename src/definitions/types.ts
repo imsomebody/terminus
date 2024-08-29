@@ -2,6 +2,7 @@ export type FeedRow = {
   text: string;
   type: "input" | "output";
   id: number;
+  originator: Command
 };
 
 export type Command = {
@@ -17,7 +18,7 @@ export type ParsedRunnable<T> = {
   id: string;
   action: Runnable<T>;
 }
-export type Runnable<T> = (raw: T) => Promise<void>
+export type Runnable<T> = (parsed: T, raw: Command) => Promise<void>
 export type RunnableStorage<T> = {
   [key: string]: ParsedRunnable<T>
 }

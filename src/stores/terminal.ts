@@ -6,7 +6,7 @@ import { reactive } from "vue";
 
 export const useTerminalStore = defineStore("terminal", () => {
   const feed: FeedRow[] = reactive([]);
-  
+
   const commands: RunnableStorage<ParsedCommand> = Object.fromEntries(everyCommand.map(({ id, action }) => [id, { id, action }]))
 
   function nextSequentialId() {
@@ -23,25 +23,27 @@ export const useTerminalStore = defineStore("terminal", () => {
     const runnable = commands[parsed.command]
 
     if (runnable) {
-      runnable.action.call(null, parsed)
+      runnable.action.call(null, parsed, cmd)
     } else {
-      onCommandNotFound(parsed)
+      onCommandNotFound(parsed, cmd)
     }
   }
 
-  function onCommandNotFound(cmd: ParsedCommand) {
+  function onCommandNotFound(cmd: ParsedCommand, originator: Command) {
     feed.push({
       text: `${cmd.command}: command not found. Try 'help' for a list of commands.`,
       type: "output",
       id: nextSequentialId(),
+      originator,
     })
   }
 
-  function push(text: string) {
+  function push(text: string, originator: Command) {
     feed.push({
       text,
       type: "output",
       id: nextSequentialId(),
+      originator
     })
   }
 
