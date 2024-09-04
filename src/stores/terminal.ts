@@ -23,7 +23,11 @@ export const useTerminalStore = defineStore("terminal", () => {
     const runnable = commands[parsed.command]
 
     if (runnable) {
-      runnable.action.call(null, parsed, cmd)
+      try {
+        runnable.action.call(null, parsed, cmd)
+      } catch(error: any) {
+        push(`Error during command execution: ${error.message}`, cmd)
+      }
     } else {
       onCommandNotFound(parsed, cmd)
     }

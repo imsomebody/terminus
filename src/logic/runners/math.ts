@@ -19,7 +19,7 @@ export const math = createRunnableCommand("math", async (parsed, cmd) => {
         cmd
       );
     } else {
-      terminalStore.push(`math: ${expressionString} is not solveable`, cmd);
+      throw error;
     }
   }
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="terminal-feed">
-    <div v-for="line in feed" :key="line.id">{{ line.text }}</div>
+    <div v-for="line in feed" :key="line.id" v-html="line.text"></div>
   </div>
   <div class="terminal-input">
     <span class="terminal-cursor">></span>

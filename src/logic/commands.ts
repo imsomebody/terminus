@@ -22,6 +22,30 @@ export function parseCommand(command: Command): ParsedCommand {
   };
 }
 
+export type ArgDefinition = {
+  [command: string]: {
+    [arg: string]: {
+      required: boolean;
+      type: string | number;
+    };
+  };
+}
+
+export function createDefinedArgs(definition: ArgDefinition, command: ParsedCommand) {
+  const commandDefinition = definition[command.command];
+  if (!commandDefinition) return {};
+
+  return command.args.reduce((acc, arg) => {
+    const argDefinition = commandDefinition[arg.key];
+    if (!argDefinition) return acc;
+
+    return {
+      ...acc,
+      [arg.key]: argDefinition.type === "number" ? Number(arg.value) : arg.value,
+    };
+  }, {});
+}
+
 export function createRunnableCommand(
   id: string,
   action: Runnable<ParsedCommand>
